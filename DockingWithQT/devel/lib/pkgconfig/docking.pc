@@ -1,0 +1,8 @@
+prefix=/home/faridalijani/thesis/MobileRobot/DockingWithQT/devel
+
+Name: docking
+Description: Description of docking
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/faridalijani/thesis/MobileRobot/DockingWithQT/devel/lib 
+Requires: 

@@ -1,0 +1,2 @@
+camtomar
+-DARUCO_PATH=/usr/local -DCATKIN_DEVEL_PREFIX=/home/faridalijani/thesis/MobileRobot/AugReaMarker/CamMark/devel -DCMAKE_INSTALL_PREFIX=/home/faridalijani/thesis/MobileRobot/AugReaMarker/CamMark/install

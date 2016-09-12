@@ -1,0 +1,201 @@
+#include "gotodocking.h"
+
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+
+#include <sensor_msgs/LaserScan.h>
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
+
+GoToDocking::GoToDocking() : ac("move_base", true)
+{
+        keepMoving = true;
+        
+        // publishing the velocity, works properly if u'd like to give vel. on different coordinate
+	commandPub = node.advertise<geometry_msgs::Twist>("/base_controller/command",1);
+	
+	
+	//commandPubM = node.advertise<move_base_msgs::MoveBaseGoal>("/goal", 1);
+	
+	/*
+// publishing the position but it doesn't work on the robot due to infrustructure failure
+	commandPubP = node.advertise<nav_msgs::Odometry>("/base_controller/odometry",1); // correct
+	*/
+	
+	/* ---------------- laser scaner as subscriber ------------
+	laserSubF = node.subscribe("/scan_front",1,&obst_detect::ScanCallBackF,this);
+	laserSubR = node.subscribe("/scan_rear",1,&obst_detect::ScanCallBackR,this);
+	*/
+	
+}
+
+// function for the starting the robot to move...
+void GoToDocking::RobotGoTo(double xPos, double yPos, double zPos,
+                                 double wOrien, double xOrien, double yOrien,
+                                 double zOrien){
+
+	ros::Rate rate(100);
+    	ROS_INFO("Robot is warming up!\n ");
+    	
+	while (ros::ok() && keepMoving) {
+        //MoveForward();
+        
+        MoveDesiredLoc(xPos,yPos,zPos,wOrien,xOrien,yOrien,zOrien);
+
+        ros::spinOnce();
+        rate.sleep();
+    }
+}
+
+
+// Moving Forward...
+void GoToDocking::MoveForward(){
+
+	geometry_msgs::Twist msg;
+	msg.linear.x = FORWARD_SPEED_MPS;
+	commandPub.publish(msg);
+	
+	nav_msgs::Odometry msg;
+	msg.header.stamp.ros::Time::now();
+	msg.header.frame_id = "base_link"; // play around with base_footprint. or sth different
+	//msg.child_frame_id = "base_link";
+	
+	msg.pose.pose.position.x = 9.2;
+	msg.pose.pose.position.y = 0;
+	msg.pose.pose.position.z = 0;
+	msg.pose.pose.orientation.w = 1;
+	
+	msg.twist.twist.linear.x = FORWARD_SPEED_MPS;
+	msg.twist.twist.linear.y = 0;
+	msg.twist.twist.linear.z = 0;
+	msg.twist.twist.angular.z = 0;
+	
+	commandPubP.publish(msg);
+	//ROS_INFO("Robot is moving to desired location ... \n ");
+		
+}
+
+// Moving to the desired Location...
+void GoToDocking::MoveDesiredLoc(double xPos, double yPos, double zPos,
+                                 double wOrien, double xOrien, double yOrien,
+                                 double zOrien)
+{
+//wait for the action server to come up
+  while(!ac.waitForServer(ros::Duration(5.0)))
+  {
+    ROS_INFO("Waiting for the move_base action server to come up");
+  }
+        move_base_msgs::MoveBaseGoal goal;
+        
+        /*
+        // sending the goal with respect to robot coordinate ...
+        goal.target_pose.header.frame_id = "base_link";
+        ROS_INFO("Robot is moving to desired location with respect to its own coordinate ... \n ");
+        */
+        
+        // sending the goal with respect to Global coordinate ...
+        goal.target_pose.header.frame_id = "map";
+        ROS_INFO("Watch out!! Robot is moving ... \n ");
+        
+        goal.target_pose.header.stamp = ros::Time::now();
+        
+        
+        /*
+        // Docking station position in the global coordinate
+        
+        //position              orientation
+        // x = -1.3              x = 0 
+        // y = -3.942            y = 0
+        // z = 0                 z = .534
+        //                       w = .845
+        goal.target_pose.pose.position.x = -1.3;
+        goal.target_pose.pose.position.y = -3.942;
+        goal.target_pose.pose.position.z = 0;
+        
+        goal.target_pose.pose.orientation.x = 0;
+        goal.target_pose.pose.orientation.y = 0;
+        goal.target_pose.pose.orientation.z = .534;
+        goal.target_pose.pose.orientation.w = .845;
+        */
+        
+        goal.target_pose.pose.position.x = xPos;
+        goal.target_pose.pose.position.y = yPos;
+        goal.target_pose.pose.position.z = 0;
+        
+        goal.target_pose.pose.orientation.x = 0;
+        goal.target_pose.pose.orientation.y = 0;
+        goal.target_pose.pose.orientation.z = zOrien;
+        goal.target_pose.pose.orientation.w = wOrien;
+        
+        
+        ac.sendGoal(goal);
+        ac.waitForResult(ros::Duration(10.0));
+        
+  
+  if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+        {
+        ROS_INFO("Succeeded to move to Docking Station ! \n ");
+        keepMoving = false;
+        }
+  else
+        {
+        keepMoving = false;
+        ROS_INFO("The robot failed to move for some reason !\n");  
+        } 
+}
+
+
+
+
+
+
+
+
+/* -------  Further investigation for Laser Scaner to stop while seeing the obstacle ----------
+
+// Front Laser Sensor chekcing for any obstacle
+void GoToDocking::ScanCallBackF(const sensor_msgs::LaserScan::ConstPtr& scanF){
+	int minIndex = ceil((MIN_SCAN_ANGLE_RAD - scanF -> angle_min) / scanF -> angle_increment);
+	int maxIndex = floor((MAX_SCAN_ANGLE_RAD - scanF -> angle_min) / scanF -> angle_increment);
+	float closestRangeF = scanF -> ranges[minIndex];
+	
+	for(int currIndex = minIndex + 1; currIndex <= maxIndex; currIndex++)
+	{
+		if (scanF->ranges[currIndex] < closestRangeF)
+		{
+           	 closestRangeF = scanF->ranges[currIndex];
+        	}
+	}
+
+        ROS_INFO_STREAM(" Closest range for the front laser sensor: " << closestRangeF);
+    	if (closestRangeF < MIN_PROXIMITY_RANGE_M)
+	{
+                ROS_INFO(" Oops!FRONTSIDE Obstacle!... Stop...! \n ");
+                keepMoving = false;
+	}
+};
+
+
+// Rear Laser Sensor chekcing for any obstacle
+void GoToDocking::ScanCallBackR(const sensor_msgs::LaserScan::ConstPtr& scanR){
+	int minIndex = ceil((MIN_SCAN_ANGLE_RAD - scanR -> angle_min) / scanR -> angle_increment);
+	int maxIndex = floor((MAX_SCAN_ANGLE_RAD - scanR -> angle_min) / scanR -> angle_increment);
+	float closestRangeR = scanR -> ranges[minIndex];
+	
+	for(int currIndex = minIndex + 1; currIndex <= maxIndex; currIndex++)
+	{
+		if (scanR->ranges[currIndex] < closestRangeR)
+		{
+           	 closestRangeR = scanR->ranges[currIndex];
+        	}
+	}
+
+        ROS_INFO_STREAM(" Closest range for the rear laser sensor: " << closestRangeR);
+    	if (closestRangeR < MIN_PROXIMITY_RANGE_M)
+	{
+                ROS_INFO("Oops!BACKSIDE Obstacle!... Stop...! \n ");
+                keepMoving = false;
+	}
+};
+*/
+

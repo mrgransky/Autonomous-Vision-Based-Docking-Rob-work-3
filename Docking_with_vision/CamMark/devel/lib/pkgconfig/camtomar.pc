@@ -1,0 +1,8 @@
+prefix=/home/faridalijani/thesis/MobileRobot/AugReaMarker/CamMark/devel
+
+Name: camtomar
+Description: Description of camtomar
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/faridalijani/thesis/MobileRobot/AugReaMarker/CamMark/devel/lib 
+Requires: 

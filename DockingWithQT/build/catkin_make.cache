@@ -1,0 +1,2 @@
+docking
+-DCATKIN_DEVEL_PREFIX=/home/faridalijani/thesis/MobileRobot/DockingWithQT/devel -DCMAKE_INSTALL_PREFIX=/home/faridalijani/thesis/MobileRobot/DockingWithQT/install

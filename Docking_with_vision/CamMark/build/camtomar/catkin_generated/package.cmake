@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "camtomar")
+set(camtomar_MAINTAINER "faridalijani <faridalijani@todo.todo>")
+set(camtomar_DEPRECATED "")
+set(camtomar_VERSION "0.0.0")
+set(camtomar_BUILD_DEPENDS "cv_bridge" "geometry_msgs" "image_transport" "roscpp" "rospy" "std_msgs" "tf")
+set(camtomar_RUN_DEPENDS "cv_bridge" "geometry_msgs" "image_transport" "roscpp" "rospy" "std_msgs" "tf")
+set(camtomar_BUILDTOOL_DEPENDS "catkin")
