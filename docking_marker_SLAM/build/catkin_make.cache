@@ -1,0 +1,2 @@
+sixDOFdockingMarker
+-DCATKIN_DEVEL_PREFIX=/home/faridalijani/thesis/MobileRobot/rviz_main_folder/docking_marker/devel -DCMAKE_INSTALL_PREFIX=/home/faridalijani/thesis/MobileRobot/rviz_main_folder/docking_marker/install

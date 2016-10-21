@@ -1,0 +1,8 @@
+prefix=/home/faridalijani/thesis/MobileRobot/rviz_main_folder/docking_marker/install
+
+Name: sixDOFdockingMarker
+Description: Description of sixDOFdockingMarker
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/faridalijani/thesis/MobileRobot/rviz_main_folder/docking_marker/install/lib 
+Requires: 
