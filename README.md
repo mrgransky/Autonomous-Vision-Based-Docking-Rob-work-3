@@ -32,4 +32,6 @@ This repository includes:
 ## 6. GUI 
 
 	Developed in Qt creator
+	
+![gui](https://cloud.githubusercontent.com/assets/11946010/19621354/4367c1a0-9890-11e6-8450-332ba0fbb305.jpg)
 		
