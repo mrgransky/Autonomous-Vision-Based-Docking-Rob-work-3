@@ -28,6 +28,9 @@ This repository includes:
 - USB camera
 	
 ## 5. Q-learning approach
+	Discretized grid for the docking area
+	
+![virtual_grid](https://cloud.githubusercontent.com/assets/11946010/19621381/cefaf458-9890-11e6-8204-dea11a74b263.JPG)
 
 ## 6. GUI 
 
