@@ -26,6 +26,8 @@ This repository includes:
 - IP camera ( stream provided with  Xperia Phone and embed live via IP address )
 	
 - USB camera
+
+	![image_proc](https://cloud.githubusercontent.com/assets/11946010/20687965/ed2c6d26-b5be-11e6-96de-a36bc998ca42.JPG)
 	
 ## 5. Q-learning approach
 	Discretized grid for the docking area
