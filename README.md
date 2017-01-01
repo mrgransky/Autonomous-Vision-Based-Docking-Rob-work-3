@@ -27,7 +27,7 @@ This repository includes:
 	
 - USB camera
 
-	![image_proc](https://cloud.githubusercontent.com/assets/11946010/20687965/ed2c6d26-b5be-11e6-96de-a36bc998ca42.JPG)
+<!--	![image_proc](https://cloud.githubusercontent.com/assets/11946010/20687965/ed2c6d26-b5be-11e6-96de-a36bc998ca42.JPG)-->
 	
 ## 5. Q-learning approach
 	Discretized grid for the docking area
@@ -37,6 +37,5 @@ This repository includes:
 ## 6. GUI 
 
 	Developed in Qt creator
-*/	
-![gui](https://cloud.githubusercontent.com/assets/11946010/19621354/4367c1a0-9890-11e6-8450-332ba0fbb305.jpg)
-*/
+
+<!--![gui](https://cloud.githubusercontent.com/assets/11946010/19621354/4367c1a0-9890-11e6-8450-332ba0fbb305.jpg)-->
