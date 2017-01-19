@@ -27,12 +27,12 @@ This repository includes:
 	
 - USB camera
 
-<!--	![image_proc](https://cloud.githubusercontent.com/assets/11946010/20687965/ed2c6d26-b5be-11e6-96de-a36bc998ca42.JPG)-->
+<!--	![image_proc](https://cloud.githubusercontent.com/assets/11946010/20687965/ed2c6d26-b5be-11e6-96de-a36bc998ca42.JPG)
 	
 ## 5. Q-learning approach
 	Discretized grid for the docking area
 	
-![virtual_grid](https://cloud.githubusercontent.com/assets/11946010/19621381/cefaf458-9890-11e6-8204-dea11a74b263.JPG)
+![virtual_grid](https://cloud.githubusercontent.com/assets/11946010/19621381/cefaf458-9890-11e6-8204-dea11a74b263.JPG)-->
 
 ## 6. GUI 
 
